@@ -13,66 +13,68 @@ struct ContentView: View {
     
     
     var body: some View {
-        ZStack{
-            Image("background")
-                .resizable()
-                .ignoresSafeArea()
-            
-            
-            Image("postit4")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .scaleEffect(0.9)
-                .padding(.bottom, 40)
-            
-            
-            VStack {
-                Spacer()
+        NavigationView{
+            ZStack{
+                Image("background")
+                    .resizable()
+                    .ignoresSafeArea()
                 
-                Text("\(mooks[index])")
-                    .font(.custom("Plump", size: 40))
-                    .foregroundColor(.black)
-                    .padding([.leading, .trailing,], 60)
-                    .padding([.top], 90)
                 
-                Spacer()
+                Image("postit4")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .scaleEffect(0.9)
+                    .padding(.bottom, 120)
                 
-                ZStack{
-                    HStack {
-                        Button(action: {
-                            self.index = (self.index + 1) % self.mooks.count
-                        }){
+                
+                VStack {
+                    Spacer()
+                    
+                    Text("\(mooks[index])")
+                        .font(.custom("Plump", size: 40))
+                        .foregroundColor(.black)
+                        .padding([.leading, .trailing,], 60)
+                        .padding([.top])
+                    
+                    Spacer()
+                    
+                    ZStack{
+                        HStack {
+                            Button(action: {
+                                self.index = (self.index + 1) % self.mooks.count
+                            }){
+                                
+                                Image(systemName: "goforward")
+                                    .font(.largeTitle)
+                                    .foregroundColor(.black)
+                                
+                            }
+                            .frame(width: 75, height: 75)
+                            .background(.white)
                             
-                            Image(systemName: "goforward")
-                                .font(.largeTitle)
-                                .foregroundColor(.black)
+                            .clipShape(Circle())
+                            .contentShape(.contextMenuPreview, Circle())
+                            .frame(maxWidth: .infinity, alignment: .bottomTrailing)
+                            .padding()
+                            .padding(.trailing)
+                            .shadow(color: .black, radius: 3, x: 3, y: 3)
                             
                         }
-                        .frame(width: 75, height: 75)
-                        .background(.white)
-                        
-                        .clipShape(Circle())
-                        .contentShape(.contextMenuPreview, Circle())
-                        .frame(maxWidth: .infinity, alignment: .bottomTrailing)
-                        .padding()
-                        .padding(.trailing)
-                        .shadow(color: .black, radius: 3, x: 3, y: 3)
-                        
-                    }
-                }.onLongPressGesture(minimumDuration: 0.1) {
-                    let keyWindow = UIApplication.shared.connectedScenes
-                        .filter({$0.activationState == .foregroundActive})
-                        .map({$0 as? UIWindowScene})
-                        .compactMap({$0})
-                        .first?.windows
-                        .filter({$0.isKeyWindow}).first
+                    }.onLongPressGesture(minimumDuration: 0.1) {
+                        let keyWindow = UIApplication.shared.connectedScenes
+                            .filter({$0.activationState == .foregroundActive})
+                            .map({$0 as? UIWindowScene})
+                            .compactMap({$0})
+                            .first?.windows
+                            .filter({$0.isKeyWindow}).first
 
-                    let activityController = UIActivityViewController(activityItems: [self.mooks[self.index]], applicationActivities: nil)
-                    keyWindow?.rootViewController?.present(activityController, animated: true, completion: nil)
+                        let activityController = UIActivityViewController(activityItems: [self.mooks[self.index]], applicationActivities: nil)
+                        keyWindow?.rootViewController?.present(activityController, animated: true, completion: nil)
+                    }
+                    .padding(.bottom, 30)
+                    
                 }
-                .padding(.bottom, 30)
-                
-            }
+            }.navigationTitle("MookSiew ❤️")
         }
         
         
